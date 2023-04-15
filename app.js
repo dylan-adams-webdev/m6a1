@@ -4,9 +4,7 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const app = express();
 
-const loanRouter = require('./routes/loans.router.js');
-const customerRouter = require('./routes/customers.router');
-const loanLedgerRouter = require('./routes/loanLedger.router');
+
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
@@ -15,11 +13,16 @@ if (process.env.NODE_ENV === 'development') {
 app.use(helmet());
 app.use(express.json());
 
-app.use('/api/v1/loans', loanRouter);
-app.use('/api/v1/customers', customerRouter);
-app.use('/api/v1/ledger', loanLedgerRouter);
+// AUTH ROUTER
+app.use('/', require('./routes/auth.router'));
+
+// PROTECTED ROUTE
+app.use('/protected', require('./routes/protected.router'));
+
+// NOT FOUND
 app.use(require('./error/notFound.js'));
-const errorHandler = require('./error/errorHandler');
-app.use(errorHandler);
+
+// ERROR HANDLER
+app.use(require('./error/errorHandler'));
 
 module.exports = app;

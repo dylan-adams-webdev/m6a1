@@ -1,4 +1,4 @@
-# Module 6 Assignment
+# Module 6 Assignment 2
 
 ## How to run
 
